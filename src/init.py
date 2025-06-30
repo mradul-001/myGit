@@ -16,9 +16,10 @@ def init():
 
         # make HEAD file
         with open(os.path.join(ROOT, "HEAD"), "w") as f:
-            f.write("ref: refs/heads/master\n")
+            f.write("ref:refs/heads/master\n")
 
         # make index file
         open(os.path.join(ROOT, "index"), "w").close()
+        print("Initialized empty repository.")
     except:
         print("Repository already initialized.")

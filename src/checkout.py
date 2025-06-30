@@ -13,18 +13,25 @@ def checkout(commit_hash):
     with open(commit_file, 'r') as f:
         lines = f.readlines()
 
-    # Skip metadata (first 3 lines)
     for line in lines[3:]:
+
         parts = line.strip().split()
         if len(parts) != 2:
             continue
-        filename, file_hash = parts
+    
+        file_hash, filename = parts
         blob_path = os.path.join(objects, file_hash)
+        
         if os.path.exists(blob_path):
+            content = ''
             with open(blob_path, 'r') as bf:
-                content = bf.read()
+                for i, line in enumerate(bf):
+                    if i < 2:
+                        continue
+                    content += line
             with open(filename, 'w') as outf:
                 outf.write(content)
+
 
     with open(os.path.join(ROOT, 'HEAD'), 'w') as f:
         f.write(commit_hash)

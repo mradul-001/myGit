@@ -1,4 +1,4 @@
-#!/home/mradul/Desktop/Projects/myGit/venv/bin/python
+#!./venv/bin/python
 
 from cli import main
 

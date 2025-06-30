@@ -11,11 +11,12 @@ def add(filename):
     indexFile = os.path.join(ROOT, 'index')
     headFile  = os.path.join(ROOT, 'HEAD')
     objects   = os.path.join(ROOT, 'objects')
+    delimiter = '\n'
 
     with open(filename, 'r') as f:
         content = f.read()
 
-    contentOfHash = 'blob ' + str(len(content)) + content
+    contentOfHash = 'blob' + delimiter + str(len(content)) + delimiter + content
     hash = hashlib.sha1(contentOfHash.encode()).hexdigest()
 
     with open(os.path.join(objects, hash), 'w') as f:

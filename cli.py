@@ -10,7 +10,7 @@ def main():
     # subparser for individual commands
     subparser = parser.add_subparsers(dest="command")
 
-    for cmd in ["init", "status"]:
+    for cmd in ["init", "status", "log"]:
         subparser.add_parser(cmd)
 
     # subparser for add command
@@ -23,8 +23,9 @@ def main():
 
     # subparser for checkout command
     checkoutParser = subparser.add_parser("checkout")
-    # checkoutParser.add_argument("-b", action="store_true", help="Create a new branch")
     checkoutParser.add_argument("commitID")
+    # checkoutParser.add_argument("-b", action="store_true", help="Create a new branch")
+
 
     # parse the arguments
     args = parser.parse_args()
@@ -45,4 +46,8 @@ def main():
             status.status()
 
         case "checkout":
-            print(f"Switching to existing branch: {args.commitID}")
+            # print(f"Switching to existing branch: {args.commitID}")
+            checkout.checkout(args.commitID)
+        
+        case "log":
+            log.log()
