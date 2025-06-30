@@ -15,14 +15,18 @@ def commit(message):
     with open(indexFile, 'r') as f:
         index_data = f.read()
 
-    if index_data == '':
-        print("Nothing to commit")
+    if index_data.strip() == '':
+        print("Nothing to commit.")
         return
 
-    parent = ''
-    if os.path.exists(headFile):
-        with open(headFile, 'r') as f:
-            parent = f.read().strip()
+    with open(headFile, 'r') as f:
+        branch = f.read().strip().split(":")[1]
+    branchHead = os.path.join(ROOT, branch)
+
+    parent = "ref:refs/heads/master"
+    if os.path.exists(branchHead):
+        with open(branchHead, 'r') as bf:
+            parent = bf.read().strip()
 
     timestamp = str(int(time.time()))
     commit_content = f"parent {parent}\nmessage {message}\ntime {timestamp}\n{index_data}"
@@ -31,8 +35,8 @@ def commit(message):
     with open(os.path.join(objects, commit_hash), 'w') as f:
         f.write(commit_content)
 
-    with open(headFile, 'w') as f:
+    with open(branchHead, 'w') as f:
         f.write(commit_hash)
-    
+
     open(indexFile, 'w').close()
     print(f"Committed as {commit_hash}")

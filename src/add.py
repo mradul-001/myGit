@@ -9,7 +9,6 @@ def add(filename):
         return
 
     indexFile = os.path.join(ROOT, 'index')
-    headFile  = os.path.join(ROOT, 'HEAD')
     objects   = os.path.join(ROOT, 'objects')
     delimiter = '\n'
 

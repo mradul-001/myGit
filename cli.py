@@ -23,9 +23,11 @@ def main():
 
     # subparser for checkout command
     checkoutParser = subparser.add_parser("checkout")
-    checkoutParser.add_argument("commitID")
-    # checkoutParser.add_argument("-b", action="store_true", help="Create a new branch")
+    checkoutParser.add_argument("name", nargs="?", help="Branch name or commit ID")
+    checkoutParser.add_argument("-b", dest="new_branch", help="Create and switch to a new branch")
 
+    branchParser = subparser.add_parser("branch")
+    branchParser.add_argument("bname", nargs="?", help="Name of the new branch.")
 
     # parse the arguments
     args = parser.parse_args()
@@ -46,8 +48,18 @@ def main():
             status.status()
 
         case "checkout":
-            # print(f"Switching to existing branch: {args.commitID}")
-            checkout.checkout(args.commitID)
+            if args.new_branch:
+                checkout.checkout("-b", args.new_branch)
+            elif args.name:
+                checkout.checkout(args.name)
+            else:
+                print("Usage: mygit checkout [-b <branch>] <commit|branch>")
         
         case "log":
             log.log()
+
+        case "branch":
+            if args.bname:
+                branch.branch(bname=args.bname)
+            else:
+                branch.branch()
